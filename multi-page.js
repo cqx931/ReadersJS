@@ -1,12 +1,15 @@
-var pManager, rdr, font, bgColor = 0;
-var texts= {}, activeReaders = [];
-var mr,pr,ldpr,ssr,psr,ldsr;
 var TEXTS = ["data/image.txt", "data/poeticCaption.txt", "data/misspeltLandings.txt"],
-    READER_NAMES = ["Mesostic Reader", "Perigram Reader", "Less Directed Perigram Reader", "Simple Spawner Reader", "Perigram Spawner Reader", "Less Directed Spawner Reader"],
+    READER_NAMES = ["Mesostic Reader", "Perigram Reader", "Less Directed Perigram Reader", "Simple Spawning Reader", "Perigram Spawning Reader", "Less Directed Spawning Reader"],
     TEXT_NAMES = [ "THE IMAGE", "POETIC CAPTION", "MISSPELT LANDINGS"],
     TEXT_STYLES = [ "Faint", "Grey", "Dark"],
     COLOR_THEMES = ["Dark", "Light"],
     SPEED_MODES = ["Fluent", "Steady", "Slow", "Slower", "Slowest", "Fast"];
+
+var pManager, rdr, font;
+var texts= {}, activeReaders = [];
+var mr,pr,ldpr,ssr,psr,ldsr;
+
+var bgColor = 0, gridFillInt = 255, gridAlpha = 40;
 
 function preload() {
 
@@ -18,7 +21,7 @@ function setup() {
 
   createCanvas(1280, 720);
 
-  RiText.defaultFill(255,60);
+  RiText.defaultFill(gridFillInt,gridAlpha);
   RiText.defaultFont(font, 24);
   RiText.defaults.paragraphIndent = 20;
 
@@ -34,7 +37,7 @@ function setup() {
 
     // add some readers
 
-    // rdr = new Reader(pManager.recto, 1, 8, .4);
+    rdr = new Reader(pManager.recto, 1, 8, .4);
     pr = new PerigramReader(pManager.recto);
     mr = new MesosticReader(pManager.verso, 1.1);
     
@@ -62,8 +65,6 @@ function setup() {
       rb.id(idName);
       select = initializeSelect("speedSelect", SPEED_MODES, speedChanged);
 
-      
-
       readersOptions[READER_NAMES[i]] = {
         active : status,
         radioButton : rb,
@@ -86,15 +87,15 @@ function setup() {
     styleSelect.addClass("half");
     themeSelect.addClass("half");
      
-    button = createButton('go');
-    button.mousePressed(selectionDone);
-    button.id('go');
+    // button = createButton('go');
+    // button.mousePressed(selectionDone);
+    // button.id('go');
     
     //Append all elements to interface
-    var interfaceElements = [focusSelect, textSelect, styleSelect, themeSelect, button];
-    var discriptText = ["Focus","Text", "Style", "Theme"]
+    var interfaceElements = [focusSelect, textSelect, styleSelect, themeSelect];
+    var discriptText = ["Focus","Text", "Style", "Theme"];
     for ( var i = 0; i < interfaceElements.length; i++ ) {
-      if (i != interfaceElements.length -1) {
+      // if (i != interfaceElements.length -1) {
         wrapper = createDiv("");
         wrapper.addClass("item");
         wrapper.parent('interface');
@@ -102,14 +103,15 @@ function setup() {
         discription.parent(wrapper);
         interfaceElements[i].parent(wrapper);
 
-      } else 
-        interfaceElements[i].parent('interface');
+      // } else 
+      //   interfaceElements[i].parent('interface');
     }
 
     //set Initial Value of focus
     console.log("FOCUS:",pManager.focus().type);
-    $('#focusSelect').val(getReadersNameFromId(pManager.focus().type));
 
+    $('#focusSelect').val(getReadersNameFromId(pManager.focus().type));
+    // document.getElementById('focusSelect');
 
   });
 }
@@ -180,10 +182,21 @@ function getReadersFromName(name) {
         return ldsr;
   }
 }
+
+function setFillInt(fillInt) {
+  gridFillInt = fillInt;
+  Grid.defaultColor(gridFillInt, gridFillInt, gridFillInt, gridAlpha);
+}
+
+function setAlpha(alpha) {
+   gridAlpha = alpha;
+   RiText.defaultFill(gridFillInt,gridAlpha);
+   Grid.defaultColor(gridFillInt, gridFillInt, gridFillInt, gridAlpha);
+}
 /***************** INTERFACE ***********************/
 
 function initializeSelect(id, options, event) {
-
+    //replace with ul li
     var sel = createSelect();
 
     for (var i = 0; i < options.length; i++)
@@ -201,7 +214,7 @@ function focusChanged() {
     var focus = getReadersFromName(focusSelect.value());
     pManager.focus(focus);
     //clear focusDisplay
-     $('#focusDisplay').html("");
+    document.getElementById('focusDisplay').innerHTML= "";
 }
 
 function textChanged() {
@@ -219,29 +232,32 @@ function styleChanged() {
     switch (style) {
         case "Faint":
            alpha = 40;
+           break;
         case "Grey":
            alpha = 70;
+           break;
         case "Dark":
            alpha = 0;
+           break;
     }
     console.log(style, alpha);
-    
+    setAlpha(alpha);
     //TODO: change text alpha - Grid?
 }
 
 function themeChanged() {
 
    var theme = themeSelect.value();
+   var body = document.getElementsByTagName('body')[0];
+
    if (theme === "Dark") {
        bgColor = 0;
-       $('body').addClass("dark");
-       $('body').removeClass("light");
+       body.className = "dark";
        //TODO: change default font color to white
 
    } else {
        bgColor = 232;
-      $('body').addClass("light");
-      $('body').removeClass("dark");
+       body.className = "light";
       //TODO: change default font color to black
    }
 
@@ -258,5 +274,5 @@ function speedChanged() {
 }
 
 function selectionDone(){
-   $('#interface').hide();
+  hideInterface();
 }

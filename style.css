@@ -58,7 +58,7 @@ canvas {
     top: 10px;
     left: 0px;
     position: absolute;
-    background: rgba(0, 0, 0, .8);
+    background: rgba(0, 0, 0, .7);
     color: #EEE;
     padding: 30px 20px 20px 120px;
     width: 400px;
@@ -94,7 +94,6 @@ select {
     margin: 5px 10px;
     color: #DDD;
     border-radius: 0px;
-    cursor: pointer;
 }
 
 select:active {
@@ -128,11 +127,11 @@ button:hover {
     width: 60px;
 }
 
-.item select {
+.item select,.item .select{
     width: 320px;
 }
 
-.item select.half {
+.item select.half,.item .select.half{
     width: 120px;
 }
 
@@ -156,7 +155,6 @@ button:hover {
 }
 
 .reader label {
-    cursor: pointer;
     display: inline-block;
     margin-top: 5px;
 }
@@ -177,29 +175,46 @@ button:hover {
     border-color: rgba(0, 0, 0, 0);
 }
 .reader input:checked + label:hover:before {
-    border-color: gray;
-    opacity: .8;
+    border-color: gray!important;
 }
 /*Reader Color Scheme*/
-.reader#MesosticReader label:hover:before, .reader#MesosticReader input:checked + label:before{
+.reader#MesosticReader input:checked + label:before{
      background-color: #1464DB;
 }
-.reader#PerigramReader label:hover:before, .reader#PerigramReader input:checked + label:before{
+.reader#PerigramReader input:checked + label:before{
      background-color: #BD0504;
 }
-.reader#LessDirectedPerigramReader label:hover:before, .reader#LessDirectedPerigramReader input:checked + label:before{
+.reader#LessDirectedPerigramReader input:checked + label:before{
      background-color: #FA0007;
 }
-.reader#SimpleSpawnerReader label:hover:before, .reader#SimpleSpawnerReader input:checked + label:before{
+.reader#SimpleSpawningReader input:checked + label:before{
      background-color: #FFB017;
 }
-.reader#PerigramSpawnerReader label:hover:before, .reader#PerigramSpawnerReader input:checked + label:before{
+.reader#PerigramSpawningReader input:checked + label:before{
      background-color: #D88100;
 }
-.reader#LessDirectedSpawnerReader label:hover:before, .reader#LessDirectedSpawnerReader input:checked + label:before{
+.reade, .reader#LessDirectedSpawningReader input:checked + label:before{
      background-color: #FFD000;
 }
 
+.reader#MesosticReader input + label:hover:before{
+     border-color: #1464DB;
+}
+.reader#PerigramReader input + label:hover:before{
+     border-color: #BD0504;
+}
+.reader#LessDirectedPerigramReader input + label:hover:before{
+     border-color: #FA0007;
+}
+.reader#SimpleSpawningReader input + label:hover:before{
+     border-color: #FFB017;
+}
+.reader#PerigramSpawningReader input + label:hover:before{
+     border-color: #D88100;
+}
+.reade, .reader#LessDirectedSpawningReader input + label:hover:before{
+     border-color: #FFD000;
+}
 
 .reader input:checked ~ select {
     display: inline-block;
@@ -215,3 +230,50 @@ button:hover {
     letter-spacing: 0.06em;
     font-size: 16px;
 }
+
+/*customized select with ul li */
+/*.item {
+    position: relative;
+    height: 30px;
+    width:320px;
+    margin:5px 0;
+}
+ul.select {
+    list-style-type: none;
+    height: 30px;
+    width:320px;
+    -webkit-padding-start:0px;
+    display: inline-block;
+    position: absolute;
+}
+ul.select li {
+    padding: 7px 10px;
+    z-index: 2;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.06em;
+    color:#DDD;
+    border:none;
+    width: 320px;
+}
+ul.select.half li {
+    width:160px;
+}
+ul.select li.init{
+    z-index: 0;
+    background-color: #3D3D3D;
+}
+
+ul.select li:not(.init) {
+    z-index: 1;
+    float: left;
+    display: none;
+    background-color: #AAA;
+    color:black;
+}
+ul.select li:not(.init).selected{
+    color:white;
+}
+ul.select li:not(.init):hover{
+    background: gray;
+}*/

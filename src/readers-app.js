@@ -59,6 +59,8 @@ Grid.ALLOW_ACROSTIC_NEIGHBORS = false;
 // add(ing the width of a) space (6 works) to slop will mean that for
 // scripts like chinese where all 'words' have equal boundingbox width
 // the relevant neighborhood NE, NW, SE, and SW cells will be included
+Grid.DEFAULT_GRID_ALPHA = 255;
+Grid.DEFAULT_GRID_FILL = [ 0, 0, 0, Grid.DEFAULT_GRID_ALPHA ];
 
 Grid.SLOP = 3;
 
@@ -77,6 +79,7 @@ Grid.DIRECTION = {
   SE: 8
 }
 
+ 
 function Grid(c, x, y, w, h) {
 
   this.id = Grid.instances.length;
@@ -102,8 +105,8 @@ Grid.prototype = {
     push();
 
     isRecto && (translate(width / 2, 0));
-
-
+    
+    fill(Grid.DEFAULT_GRID_FILL);
 
     for (var i = 0; i < this.cells.length; i++) {
       for (var j = 0; j < this.cells[i].length; j++)
@@ -820,6 +823,16 @@ Grid.direction = function (dirConst) {
 
   throw Error("Bad Direction: " + dirConst);
 }
+
+Grid.defaultColor = function(r, g, b, a) {
+    DEFAULT_GRID_FILL = { r, g, b, a };
+    Grid.defaultAlpha(a);
+}
+
+Grid.defaultAlpha = function(a) {
+    DEFAULT_GRID_ALPHA = a;
+}
+
 
 ////////////////////////////// Reader /////////////////////////////////
 
