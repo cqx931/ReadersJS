@@ -25,6 +25,7 @@ var STYLE = {
 };
 
 var uiLogging = true;
+var maxFocusLog = int(window.innerHeight / 30);
 
 function createInterface() {
 
@@ -244,3 +245,23 @@ function createInterface() {
   }
 
 }
+
+ ////////////////////////////////////////////////////////////////////
+//FOCUS DISPLAY
+function logToDisplay(msg) {
+    
+    createP(msg).parent('focusDisplay');
+    //remove first element from focusDisplay
+    var logEntries = display.childNodes.length;
+    if ( logEntries > maxFocusLog) {
+        var display = document.getElementById("focusDisplay");
+        while(logEntries > maxFocusLog) {
+           display.removeChild(display.childNodes[0]);
+        }  
+    }
+
+}
+
+//TODO: window resize
+//recalculate maxLog
+

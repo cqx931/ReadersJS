@@ -129,3 +129,15 @@ function textChanged() {
      
     }
 }
+
+function logToDisplay(msg) {
+    var maxLog = displayHeight / 30;
+
+    createP(msg).parent('focusDisplay');
+    //remove first element from focusDisplay
+    if (log > maxLog) {
+        var display = document.getElementById("focusDisplay");
+        display.removeChild(display.childNodes[0]);
+    }
+
+}
