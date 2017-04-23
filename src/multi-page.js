@@ -9,7 +9,7 @@ function preload() {
 
 function setup() {
 
-  if(isFirefox) return;
+  // if(isFirefox) return;
 
   createCanvas(1280, 720);
 

@@ -24,10 +24,12 @@ var isFirefox = typeof InstallTrigger !== 'undefined';
 function loadTexts() {
   //tmp
   if(isFirefox) return;
+  
+  loadTheFirst();
 
   var menu = document.getElementById('interface'),
     overlay = document.getElementById('overlay');
-
+  
   var monitor = function(element, callback) {
 
     var self = element;
@@ -77,6 +79,41 @@ function finishLoading(text) {
     overlay.classList.toggle('fade');
     textChanged();
   }
+}
+
+function loadTheFirst() {
+
+    var script = document.createElement("script");
+
+    script.src = TEXTS[0].trigrams;
+    script.id = TEXTS[0].title;
+
+    document.getElementsByTagName("html")[0].appendChild(script);
+
+    script.onload = function () {
+
+      var s = document.createElement("script");
+      s.src = "src/multi-page.js";
+      s.id = "multi-page"
+
+      document.getElementsByTagName("html")[0].appendChild(s);
+
+      s.onload = function() {
+        console.log("finishLoading" + s.id);
+      };
+
+
+      // var s2 = document.createElement("script");
+      // s2.src = "src/multi-page-ui.js";
+      
+      // document.getElementsByTagName("html")[0].appendChild(s2);
+
+      // s2.onload = function () {
+      //   console.log("finishLoading");
+      // };
+
+    };
+
 }
 
 function reloadTheRest() {
