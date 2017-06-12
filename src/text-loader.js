@@ -100,9 +100,16 @@ function loadTheFirst(callback) {
 
 
 function reloadTheRest() {
+  
   for (var i = 1; i < TEXTS.length; i++) { // skip the first text
-      createScriptTag(TEXTS[i].trigrams, TEXTS[i].title); 
+      // (function (i) {//Test
+      //   setTimeout(function () {
+        createScriptTag(TEXTS[i].trigrams, TEXTS[i].title)
+      // },5000); 
+      // })(i);
   }
+
+
 }
 
 
